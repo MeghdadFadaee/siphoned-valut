@@ -20,10 +20,6 @@ export default function Dashboard({adminMode=false}:{adminMode?:boolean}){
   setSharing(true);setShareNotice('');
   const url=withShareTimestamp(shareUrl,Math.floor(Date.now()/1000));
   try {
-   if(navigator.share){
-    try{await navigator.share({title:'آخرین وضعیت خزانه سایفوند',url});setShareNotice('لینک آخرین وضعیت به اشتراک گذاشته شد.');return;}
-    catch(e){if((e as Error).name==='AbortError')return;}
-   }
    try{if(!navigator.clipboard)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(url);setShareNotice('لینک آخرین وضعیت کپی شد؛ در دیسکورد پیست کن.');}
    catch{setShareNotice(url);}
   }finally{setSharing(false);}
