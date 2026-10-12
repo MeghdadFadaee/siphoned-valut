@@ -1,7 +1,7 @@
 import { ledgerSnapshot } from './share';
 import { fa, persianNumber as n, persianDigits } from './persian-text';
 type Snapshot = Awaited<ReturnType<typeof ledgerSnapshot>>;
-export const cardWidth=1600,cardHeight=1200,cardEdition='fa-v2';
+export const cardWidth=1600,cardHeight=1200,cardEdition='fa-v3';
 const gold='#d1ab6c',muted='#94999f';
 const panel={display:'flex',flexDirection:'column' as const,flex:1,padding:'22px 26px',borderRadius:14};
 const short=(value:string,max=21)=>value.length>max?value.slice(0,max-1)+'…':value;
@@ -11,12 +11,12 @@ export function ShareCard({data}:{data:Snapshot}) {
  return <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',backgroundColor:'#101214',padding:48,fontFamily:'Vazirmatn',color:'#e9e8e5'}}>
   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',height:56}}>
    <div style={{display:'flex',alignItems:'center',gap:11,color:'#91bba8',fontSize:22,padding:'8px 18px',border:'1px solid #344b3c',borderRadius:25,backgroundColor:'#1c2521'}}>{fa('آخرین وضعیت خزانه')}<div style={{display:'flex',width:9,height:9,borderRadius:10,backgroundColor:'#91bba8'}}/></div>
-   <div style={{display:'flex',alignItems:'center',gap:18,fontSize:33,fontWeight:700}}>{fa('خزانه سایفوند')}<div style={{display:'flex',width:52,height:54,border:'2px solid #d1ab6c',borderRadius:12,alignItems:'center',justifyContent:'center',color:gold,fontSize:31}}>{fa('س')}</div></div>
+   <div style={{display:'flex',alignItems:'center',gap:18,fontSize:33,fontWeight:700}}>{fa('خزانه سایفوند انرژی')}<div style={{display:'flex',width:52,height:54,border:'2px solid #d1ab6c',borderRadius:12,alignItems:'center',justifyContent:'center',color:gold,fontSize:31}}>{fa('س')}</div></div>
   </div>
   <div style={{display:'flex',justifyContent:'flex-end',marginTop:18,fontSize:45,fontWeight:700}}>{fa('سهم هر عضو، قدرت تمام گیلد')}</div>
   <div style={{display:'flex',justifyContent:'flex-end',marginTop:3,fontSize:22,color:muted}}>{fa(`${n(data.players.length)} عضو · ${n(data.count)} تراکنش · ${n(ready)} عضو آماده نبرد`)}</div>
   <div style={{display:'flex',gap:18,marginTop:23,height:155}}>
-   {[{label:'نیازمند اقدام',value:data.low.length,color:'#e19b58',sub:`${n(data.players.filter(p=>p.balance<0).length)} حساب بدهکار`},{label:'کل برداشت',value:data.withdrawals,color:'#da9494',sub:'سایفوند مصرف شده'},{label:'کل واریز',value:data.deposits,color:'#91bba8',sub:'مجموع سهم اعضای گیلد'},{label:'بالانس خزانه',value:data.balance,color:data.balance<0?'#e47878':gold,sub:'سایفوند · خالص واریز و برداشت'}].map(stat=><div key={stat.label} style={{display:'flex',flexDirection:'column',alignItems:'flex-end',flex:1,padding:'13px 23px',backgroundColor:'#191b1e',border:'1px solid #353332',borderRadius:13}}><div style={{display:'flex',fontSize:21,color:muted}}>{fa(stat.label)}</div><div style={{display:'flex',fontSize:48,fontWeight:700,color:stat.color,height:67,alignItems:'center'}}>{n(stat.value)}</div><div style={{display:'flex',fontSize:16,color:muted}}>{fa(stat.sub)}</div></div>)}
+   {[{label:'نیازمند اقدام',value:data.low.length,color:'#e19b58',sub:`${n(data.players.filter(p=>p.balance<0).length)} حساب بدهکار`},{label:'کل برداشت',value:data.withdrawals,color:'#da9494',sub:'سایفوند انرژی مصرف شده'},{label:'کل واریز',value:data.deposits,color:'#91bba8',sub:'مجموع سهم اعضای گیلد'},{label:'بالانس خزانه',value:data.balance,color:data.balance<0?'#e47878':gold,sub:'سایفوند انرژی · خالص واریز و برداشت'}].map(stat=><div key={stat.label} style={{display:'flex',flexDirection:'column',alignItems:'flex-end',flex:1,padding:'13px 23px',backgroundColor:'#191b1e',border:'1px solid #353332',borderRadius:13}}><div style={{display:'flex',fontSize:21,color:muted}}>{fa(stat.label)}</div><div style={{display:'flex',fontSize:48,fontWeight:700,color:stat.color,height:67,alignItems:'center'}}>{n(stat.value)}</div><div style={{display:'flex',fontSize:16,color:muted}}>{fa(stat.sub)}</div></div>)}
   </div>
   <div style={{display:'flex',gap:24,marginTop:24,height:435}}>
    <div style={{...panel,border:'1px solid #5a4431',backgroundColor:'#28221c'}}>

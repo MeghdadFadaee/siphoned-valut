@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 const origin = 'https://siphoned-guild-vault.meghdad-social.chatgpt.site';
-const title = 'سایفوند | خزانه گیلد';
-const description = 'بالانس خودت را ببین، جایگاهت را در لیدربورد بشناس و برای نبرد بعدی آماده شو. خزانهٔ عمومی سایفوند گیلد در آلبیون آنلاین.';
+const title = 'سایفوند انرژی | خزانه گیلد';
+const description = 'بالانس خودت را ببین، جایگاهت را در لیدربورد بشناس و برای نبرد بعدی آماده شو. خزانهٔ عمومی سایفوند انرژی گیلد در آلبیون آنلاین.';
 const image = {
   url: `${origin}/api/share-image`,
   width: 1600,
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'fa_IR',
     url: origin,
-    siteName: 'خزانه سایفوند',
+    siteName: 'خزانه سایفوند انرژی',
     title,
     description,
     images: [image],

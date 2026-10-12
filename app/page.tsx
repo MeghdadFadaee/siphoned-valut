@@ -12,12 +12,12 @@ export async function generateMetadata({searchParams}:{searchParams:Promise<Reco
   const timestamp=shareTimestamp((await searchParams).t);
   const imageUrl=timestamp===null?data.imageUrl:withShareTimestamp(data.imageUrl,timestamp);
   const pageUrl=timestamp===null?siteOrigin:withShareTimestamp(data.shareUrl,timestamp);
-  const title=`سایفوند | ${persianNumber(data.balance)} در خزانه`;
+  const title=`سایفوند انرژی | ${persianNumber(data.balance)} در خزانه`;
   const description=`${persianNumber(data.players.length)} عضو، ${persianNumber(data.count)} تراکنش، ${persianNumber(data.low.length)} حساب نیازمند شارژ. آخرین تراکنش: ${persianDigits(data.latest)}. بالانس و رتبهٔ خودت را ببین.`;
   const image={url:imageUrl,width:cardWidth,height:cardHeight,type:'image/png',alt:'آخرین بالانس خزانه، لیدربورد، حساب‌های نیازمند شارژ و تراکنش‌های گیلد'};
-  return {title,description,openGraph:{type:'website',url:pageUrl,siteName:'خزانه سایفوند',locale:'fa_IR',title,description,images:[image]},twitter:{card:'summary_large_image',title,description,images:[{url:image.url,alt:image.alt}]}};
+  return {title,description,openGraph:{type:'website',url:pageUrl,siteName:'خزانه سایفوند انرژی',locale:'fa_IR',title,description,images:[image]},twitter:{card:'summary_large_image',title,description,images:[{url:image.url,alt:image.alt}]}};
  } catch {
-  return {title:'سایفوند | خزانه گیلد',description:'لیدربورد و وضعیت خزانهٔ گیلد در آلبیون آنلاین'};
+  return {title:'سایفوند انرژی | خزانه گیلد',description:'لیدربورد و وضعیت خزانهٔ گیلد در آلبیون آنلاین'};
  }
 }
 export default function Page(){return <Dashboard/>;}

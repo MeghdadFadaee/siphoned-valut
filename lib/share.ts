@@ -4,7 +4,7 @@ export async function ledgerSnapshot(rows: {date:string;player:string;reason:str
   const players = summarize(rows);
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(rows.map(identity).sort().join('\n')));
   const hash = Array.from(new Uint8Array(digest)).map(n=>n.toString(16).padStart(2,'0')).join('').slice(0,20);
-  const revision = `fa-v2-${hash}`;
+  const revision = `fa-v3-${hash}`;
   return {
     revision,
     recent: rows.slice(0,4),
