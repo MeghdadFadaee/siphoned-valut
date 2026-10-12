@@ -13,6 +13,15 @@ const image = {
 export const metadata: Metadata = {
   metadataBase: new URL(origin),
   title,
+  icons: {
+    icon: [
+      {url:'/favicon.ico?v=energy-1',sizes:'16x16 32x32 48x48',type:'image/x-icon'},
+      {url:'/favicon-32.png?v=energy-1',sizes:'32x32',type:'image/png'},
+      {url:'/favicon.svg?v=energy-1',sizes:'any',type:'image/svg+xml'},
+    ],
+    shortcut:'/favicon.ico?v=energy-1',
+    apple:{url:'/apple-touch-icon.png?v=energy-1',sizes:'180x180',type:'image/png'},
+  },
   description,
   alternates: { canonical: origin },
   openGraph: {
