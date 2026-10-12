@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+ <radialGradient id="glow"><stop stop-color="#b17b32" stop-opacity=".24"/><stop offset="1" stop-color="#101214" stop-opacity="0"/></radialGradient>
+ <linearGradient id="glass" x2="1" y2="1"><stop stop-color="#b18c56" stop-opacity=".65"/><stop offset=".5" stop-color="#44331e"/><stop offset="1" stop-color="#211b15"/></linearGradient>
+ <linearGradient id="energy" x2="0" y2="1"><stop stop-color="#efc478"/><stop offset="1" stop-color="#9e5522"/></linearGradient>
+ <linearGradient id="cap"><stop stop-color="#54402c"/><stop offset=".5" stop-color="#d1b17f"/><stop offset="1" stop-color="#5b432b"/></linearGradient>
+ <filter id="shine"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<rect width="1200" height="630" fill="#101214"/><rect x="22" y="22" width="1156" height="586" rx="22" fill="none" stroke="#393227"/>
+<circle cx="289" cy="310" r="282" fill="url(#glow)"/>
+<path d="M66 63h29l-2 28-12 9-12-9z" fill="#29241c" stroke="#d1ab6c" stroke-width="2"/><path d="M81 71v17" stroke="#d1ab6c" stroke-width="2"/>
+<text x="110" y="90" fill="#e9e8e5" font-family="Arial,sans-serif" font-size="25" font-weight="700" letter-spacing="4">SIPHONED</text>
+<text x="1118" y="88" text-anchor="end" fill="#8f9399" font-family="Arial,sans-serif" font-size="12" letter-spacing="3">ALBION ONLINE / GUILD TREASURY</text>
+<ellipse cx="282" cy="328" rx="184" ry="91" transform="rotate(-27 282 328)" fill="none" stroke="#866a423f"/>
+<ellipse cx="282" cy="328" rx="192" ry="113" transform="rotate(45 282 328)" fill="none" stroke="#866a423f"/>
+<g transform="rotate(-12 282 320)">
+ <rect x="245" y="179" width="74" height="28" rx="6" fill="url(#cap)" stroke="#c29b64" stroke-width="3"/>
+ <path d="M253 207h58v48h-58z" fill="url(#glass)" stroke="#b6925a" stroke-width="3"/>
+ <path d="M245 245h74q56 0 56 52v111q0 61-63 61h-60q-63 0-63-61V297q0-52 56-52z" fill="url(#glass)" stroke="#d2ad70" stroke-width="4"/>
+ <path d="M225 297h114q19 0 19 23v87q0 43-46 43h-60q-46 0-46-43v-87q0-23 19-23z" fill="#db9f48" opacity=".7" filter="url(#shine)"/>
+ <path d="M225 297h114q19 0 19 23v87q0 43-46 43h-60q-46 0-46-43v-87q0-23 19-23z" fill="url(#energy)"/>
+ <path d="M282 334c3 19 24 19 24 42 0 19-12 32-27 32s-27-13-27-27c0-10 5-16 10-20 1 12 6 16 12 13 10-4 5-18 8-40z" fill="none" stroke="#ffe5ae" stroke-width="5" stroke-linejoin="round"/>
+ <path d="M212 281v108" stroke="#e2c99f" stroke-opacity=".22" stroke-width="8" stroke-linecap="round"/>
+</g>
+<g fill="#d1ab6c"><rect x="127" y="247" width="5" height="5"/><rect x="413" y="385" width="6" height="6"/><rect x="175" y="448" width="4" height="4"/></g>
+<text x="282" y="515" text-anchor="middle" fill="#ad8a55" font-family="Arial,sans-serif" font-size="12" letter-spacing="5">SIPHONED ENERGY</text>
+<text x="506" y="208" fill="#c1a16d" font-family="Arial,sans-serif" font-size="13" letter-spacing="4">EVERY CONTRIBUTION COUNTS</text>
+<text x="502" y="286" fill="#e9e8e5" font-family="Arial,sans-serif" font-weight="700" font-size="67" letter-spacing="-2">THE GUILD VAULT.</text>
+<text x="505" y="341" fill="#d1ab6c" font-family="Arial,sans-serif" font-size="34" font-weight="600">Stronger together.</text>
+<text x="506" y="391" fill="#93979d" font-family="Arial,sans-serif" font-size="20">Know your balance. Own your contribution.</text>
+<g font-family="Arial,sans-serif" font-size="12" letter-spacing="1.5">
+ <rect x="506" y="439" width="155" height="45" rx="8" fill="#24211c" stroke="#53442c"/><text x="583" y="467" text-anchor="middle" fill="#d1ab6c">LEADERBOARD</text>
+ <rect x="674" y="439" width="130" height="45" rx="8" fill="#1c2521" stroke="#344b3c"/><text x="739" y="467" text-anchor="middle" fill="#91bba8">BALANCES</text>
+ <rect x="817" y="439" width="179" height="45" rx="8" fill="#1d1f22" stroke="#3c4148"/><text x="906" y="467" text-anchor="middle" fill="#b4b7bc">TRANSACTIONS</text>
+</g>
+<path d="M66 554h1068" stroke="#2b2d30"/>
+<circle cx="75" cy="578" r="4" fill="#80b6a0"/><text x="90" y="583" font-family="Arial,sans-serif" font-size="11" fill="#929990" letter-spacing="2">PUBLIC LEDGER. SHARED POWER.</text>
+<text x="1133" y="583" text-anchor="end" font-family="Arial,sans-serif" font-size="11" fill="#73777c" letter-spacing="2">BUILT FOR THE GUILD.</text>
+</svg>
