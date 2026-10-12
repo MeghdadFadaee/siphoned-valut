@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 import './globals.css';
 const origin = 'https://siphoned-guild-vault.meghdad-social.chatgpt.site';
-const title = 'Siphoned | خزانهٔ گیلد';
-const description = 'بالانس خودت را ببین، جایگاهت را در لیدربورد بشناس و برای نبرد بعدی آماده شو. خزانهٔ عمومی Siphoned گیلد در Albion Online.';
+const title = 'سایفوند | خزانه گیلد';
+const description = 'بالانس خودت را ببین، جایگاهت را در لیدربورد بشناس و برای نبرد بعدی آماده شو. خزانهٔ عمومی سایفوند گیلد در آلبیون آنلاین.';
 const image = {
   url: `${origin}/api/share-image`,
-  width: 1200,
-  height: 630,
+  width: 1600,
+  height: 1200,
   type: 'image/png',
-  alt: 'Latest Siphoned guild balances, top players and members needing a refill',
+  alt: 'آخرین بالانس خزانه، لیدربورد، حساب‌های نیازمند شارژ و تراکنش‌های گیلد',
 };
 export const metadata: Metadata = {
   metadataBase: new URL(origin),
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'fa_IR',
     url: origin,
-    siteName: 'Siphoned Guild Vault',
+    siteName: 'خزانه سایفوند',
     title,
     description,
     images: [image],
