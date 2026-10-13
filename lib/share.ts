@@ -8,7 +8,7 @@ export async function ledgerSnapshot(rows: {date:string;player:string;reason:str
   return {
     revision,
     recent: rows.slice(0,4),
-    shareUrl: `${siteOrigin}/?v=${revision}`,
+    shareUrl: `${siteOrigin}/`,
     imageUrl: `${siteOrigin}/api/share-image?v=${revision}`,
     players,
     balance: players.reduce((n,p)=>n+p.balance,0),

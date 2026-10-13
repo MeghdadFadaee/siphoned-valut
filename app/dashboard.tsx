@@ -18,7 +18,7 @@ export default function Dashboard({adminMode=false}:{adminMode?:boolean}){
  const preview=useMemo(()=>{if(!log.trim())return null;try{const parsed=parseLog(log);const ids=new Set(rows.map(identity));let fresh=0;for(const r of parsed){const id=identity(r);if(!ids.has(id)){fresh++;ids.add(id);}}return {total:parsed.length,fresh,duplicates:parsed.length-fresh,error:''};}catch(e){return {error:(e as Error).message,total:0,fresh:0,duplicates:0};}},[log,rows]);
  async function shareLatest(){
   setSharing(true);setShareNotice('');
-  const url=withShareTimestamp(shareUrl,Math.floor(Date.now()/1000));
+  const url=withShareTimestamp(new URL('/',shareUrl).href,Math.floor(Date.now()/1000));
   try {
    try{if(!navigator.clipboard)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(url);setShareNotice('لینک آخرین وضعیت کپی شد؛ در دیسکورد پیست کن.');}
    catch{setShareNotice(url);}
