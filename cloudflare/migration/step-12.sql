@@ -1,0 +1,1 @@
+UPDATE ledger_state SET preview_revision=1 WHERE id=1 AND revision=1;

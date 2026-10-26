@@ -23,3 +23,11 @@ The live card uses bundled OFL-licensed Vazirmatn regular/bold fonts. Persian la
 ## Energy palette and icon
 
 The primary color is cyan-blue (`#56d3ff`) over deep navy (`#080f18`). The vector vial in `lib/energy-art.mjs` is shared by the hero, brand, live card, SVG/ICO/PNG favicon and Apple touch icon. It follows the cyan energy, dark metal bands and brass cap visible in the Siphoned Energy item reference: https://www.albiondatabase.com/items/siphoned-energy (icon: https://assets.albiondatabase.com/icons/items/UNIQUE_GVGTOKEN_GENERIC.png). Run `node scripts/generate-favicon.mjs` after changing the vector. Warning/debt colors remain amber/red to communicate balance status.
+
+## Player pages
+
+Every member has a public, case-insensitive `/@player_name` account page, linked from player names in the leaderboard and guild history. It shows balance, rank, readiness and the exact required top-up, totals, a complete balance timeline, and searchable deposit/withdrawal history with the balance after each transaction. History loads progressively; CSV exports the full account regardless of the selected filter. Balances start from zero at the beginning of imported history. Timestamps retain the game timezone; transactions within the same second have no known in-game order.
+
+The shared account link copies a fresh `?t=` timestamp. Player-specific Twitter/Open Graph images show balance, readiness, top-up, rank, totals, and the five latest transactions. Next/Vinext uses `/api/player-image?player=...`; the offline Cloudflare package generates one PNG per player during its usual build. Unknown players return HTTP 404. Player metadata has its own canonical URL and never inherits the guild-wide preview.
+
+Validation: `node --test lib/*.test.mjs cloudflare/src/worker.test.mjs`, `npx tsc --noEmit --incremental false`, and `node cloudflare/build.mjs`.

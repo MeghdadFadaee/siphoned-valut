@@ -1,0 +1,1 @@
+INSERT INTO ledger_state VALUES (1,1,'','{"balance":-2172,"members":35,"low":24,"count":1243,"latest":"2026-10-12 19:53:45"}',X'',0);

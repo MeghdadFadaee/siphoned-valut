@@ -10,3 +10,33 @@
 .brand>span:last-child{font-size:17px}@media(max-width:700px){.brand>span:last-child{font-size:14px}.topbar .breadcrumb strong{max-width:104px;font-size:9px;line-height:1.6}}
 
 .brandmark{background:#0b1e30;border-color:#28658b;overflow:hidden}.brandmark img{width:100%;height:100%;object-fit:cover}.guild-icon{padding:0;background:transparent}.artifact{background:radial-gradient(ellipse,#15a8f333,transparent 70%)}.energy-vial{position:relative;width:174px;height:174px;object-fit:contain;border-radius:24%;filter:drop-shadow(0 0 20px #2ccfff55)}.artifact-label{color:#8bd6f2}.spark{background:#a2efff;box-shadow:0 0 9px #35cfff}.share-button{box-shadow:inset 0 1px 0 #8adeff15}.champion-medal{box-shadow:0 0 0 7px #4bcfff22,0 0 25px #35bdff22}.action-banner{background:linear-gradient(100deg,#142a3b,#192b36);border-color:#3c647a}.action-banner strong{color:#a0d9f0}.action-banner p{color:#9db9c9}.action-icon{background:#163c5655;border-color:#35617d}.action-banner button{background:#183a52;border-color:#337ba2;color:#b3e9ff}@media(max-width:700px){.energy-vial{width:140px;height:140px}}@media(prefers-reduced-motion:no-preference){.energy-vial{animation:energy-float 6s ease-in-out infinite}@keyframes energy-float{50%{transform:translateY(-6px);filter:drop-shadow(0 0 27px #29cfff77)}}}
+
+/* Keep the leading navigation icon beside its label. */
+.nav svg:first-child{margin-right:0;flex-shrink:0}
+.nav svg:last-child:not(:first-child),.nav-count{margin-right:auto}
+.hero{gap:20px;overflow:visible}
+.hero>div:first-child{min-width:0}
+.artifact{flex-shrink:0}
+.action-icon{flex-shrink:0}
+@media(max-width:700px){
+ .hero{display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:10px;min-height:220px;padding:20px 0}
+ .hero h1{font-size:23px;line-height:1.65;margin:10px 0 7px;max-width:none}
+ .hero p{max-width:none;font-size:11px;line-height:1.9}
+ .hero-tags{flex-wrap:wrap;gap:7px 10px;margin-top:13px}
+ .artifact{width:90px;height:130px;transform:none;margin:0}
+ .energy-vial{width:90px;height:90px;border-radius:24%}
+ .artifact .orbit,.artifact .spark{display:none}
+ .artifact-label{font-size:7px;letter-spacing:0;bottom:2px;white-space:nowrap}
+ .action-banner{display:grid;grid-template-columns:32px minmax(0,1fr);gap:8px 11px;padding:14px;margin:18px 0;align-items:start}
+ .action-icon{width:32px;height:34px;border-radius:7px}
+ .action-icon svg{width:19px;height:19px}
+ .action-banner>div:nth-child(2){min-width:0}
+ .action-banner strong{font-size:12px;line-height:1.8}
+ .action-banner p{max-width:none;font-size:11px;line-height:1.8;margin:4px 0 0}
+ .action-banner button{grid-column:2;width:fit-content;max-width:100%;margin:0;padding:7px 10px;font-size:10px;line-height:1.7}
+}
+
+/* Public player accounts */
+.player-layout{max-width:1120px;margin:auto;padding:0 32px}.player-nav{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:26px 0}.player-nav .brand{font-size:14px;letter-spacing:0}.player-back{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px}.player-back:hover{color:var(--energy)}.player-hero{padding:34px;display:flex;justify-content:space-between;align-items:center;gap:24px;background:radial-gradient(ellipse at top right,#167ca52a,transparent 70%),var(--panel);border-color:#285572}.player-identity{display:flex;align-items:center;gap:23px;min-width:0}.player-identity>div{min-width:0}.player-monogram{display:grid;place-items:center;flex-shrink:0;width:88px;height:88px;border-radius:23px;border:1px solid #347da0;background:linear-gradient(135deg,#205775,#102b3e);color:var(--energy);font:bold 30px Arial}.player-hero h1{font:700 38px Arial;margin:12px 0 15px;overflow-wrap:anywhere;text-align:right}.player-hero .badge{font-size:12px;padding:6px 12px}.player-hero-actions{display:flex;flex-direction:column;gap:18px;align-items:center;flex-shrink:0}.player-hero-actions>span{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}.player-stats{margin:20px 0}.player-readiness{display:flex;align-items:center;gap:18px;padding:22px 26px;margin:20px 0}.player-readiness>svg{flex-shrink:0}.player-readiness h2{font-size:16px;margin:0 0 7px}.player-readiness p{font-size:13px;line-height:1.9;margin:0}.readiness-shield{margin-right:auto;opacity:.4}.player-chart{margin:20px 0}.muted{color:var(--muted);font-size:11px}.balance-timeline{padding:0 24px 22px;direction:ltr}.balance-timeline svg{display:block;width:100%;height:185px;overflow:visible}.timeline-labels{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:var(--muted);direction:rtl}.timeline-labels>span:first-child{order:3}.timeline-labels>span:last-child{order:1}.timeline-labels>span:nth-child(2){order:2}.transaction-kind{display:flex;align-items:center;gap:6px}.player-transactions .search input{width:155px}.player-transactions td{padding:17px 23px}.player-transactions .date{font-size:12px}.player-transactions .table-footer{align-items:center;font-size:11px}.player-transactions .section-title{gap:12px}.player-layout footer{line-height:1.9}.player-layout footer a{color:var(--energy)}
+@media(max-width:700px){.player-layout{padding:0 16px}.player-nav{padding:19px 0}.player-nav .brand{font-size:11px;gap:6px}.player-hero{padding:23px 20px;flex-direction:column;align-items:stretch}.player-identity{gap:15px}.player-monogram{width:60px;height:66px;border-radius:17px;font-size:23px}.player-hero h1{font-size:27px}.player-hero-actions{flex-direction:row;justify-content:space-between;gap:12px;flex-wrap:wrap}.player-hero-actions .primary{font-size:11px}.player-readiness{padding:20px 16px;gap:12px}.player-readiness p{font-size:12px}.player-readiness h2{font-size:14px}.readiness-shield{display:none}.player-chart .section-title{gap:10px}.player-chart h2,.player-transactions h2{font-size:17px}.balance-timeline{padding:0 17px 20px}.timeline-labels{font-size:8px;flex-wrap:wrap}.timeline-labels>span:nth-child(2){width:100%;text-align:center;order:4}.player-transactions td{padding:15px 12px}.player-transactions .date{font-size:10px}.player-transactions .section-title .eyebrow{font-size:8px}.player-transactions .share-button{font-size:10px}.player-transactions .table-footer{font-size:10px}}
+.spotlight .champion-link{border-top:1px solid #264961;width:100%;padding-top:16px;display:flex;justify-content:center;gap:8px;font-size:10px;color:#89d4f0}.player-cell:hover .player-name,.player-name:hover{color:var(--energy)}

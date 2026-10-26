@@ -1,0 +1,1 @@
+CREATE TABLE ledger_state (id INTEGER PRIMARY KEY CHECK(id=1),revision INTEGER NOT NULL,rows TEXT NOT NULL,metadata TEXT NOT NULL,image BLOB,preview_revision INTEGER NOT NULL);

@@ -1,0 +1,28 @@
+import {summarize} from '../lib/ledger.mjs';import {playerSnapshot} from '../lib/player.mjs';import fs from 'node:fs/promises';import {createHash} from 'node:crypto';import {build} from 'esbuild';import {fileURLToPath} from 'node:url';import {execFileSync} from 'node:child_process';
+const root=fileURLToPath(new URL('./',import.meta.url)),out=root+'dist/';await fs.mkdir(out,{recursive:true});
+const ledger=JSON.parse(await fs.readFile(root+'migration/ledger.json','utf8'));
+const balances=new Map();for(const row of ledger.rows){const key=row.player.toLowerCase();balances.set(key,(balances.get(key)||0)+row.amount);}
+const revision=createHash('sha256').update(JSON.stringify(ledger.rows)).digest('hex').slice(0,16);
+const profiles=summarize(ledger.rows).map(p=>Object.fromEntries(Object.entries(playerSnapshot(ledger.rows,p.name)).filter(([key])=>key!=='history')));
+const metadata={revision,profiles,balance:[...balances.values()].reduce((n,v)=>n+v,0),members:balances.size,low:[...balances.values()].filter(v=>v<10).length,count:ledger.rows.length,latest:ledger.rows[0]?.date||'—'};
+await fs.writeFile(root+'src/metadata.json',JSON.stringify(metadata));
+await fs.writeFile(out+'ledger.json',JSON.stringify({rows:ledger.rows,admin:false,shareUrl:'https://siphoned.oneup.megh.dad/'}));
+await build({entryPoints:[root+'src/client.tsx'],outfile:out+'app.js',bundle:true,minify:true,format:'esm',platform:'browser',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'}});
+await build({entryPoints:[root+'src/worker.mjs'],outfile:out+'_worker.js',bundle:true,minify:true,format:'esm',platform:'browser'});
+let css=await fs.readFile(new URL('../app/globals.css',import.meta.url),'utf8');css=css.replace(/^@import[^\n]+\n/,"@font-face{font-family:Vazirmatn;src:url('/Vazirmatn-Regular.ttf');font-weight:400 600;font-display:swap}@font-face{font-family:Vazirmatn;src:url('/Vazirmatn-Bold.ttf');font-weight:700 900;font-display:swap}\n");await fs.writeFile(out+'app.css',css);
+const cssVersion=createHash('sha256').update(css).digest('hex').slice(0,12);
+for(const file of ['favicon.svg','favicon.ico','favicon-32.png','apple-touch-icon.png','siphoned-energy.svg'])await fs.copyFile(new URL('../public/'+file,import.meta.url),out+file);
+for(const file of ['Vazirmatn-Regular.ttf','Vazirmatn-Bold.ttf'])await fs.copyFile(new URL('../lib/fonts/'+file,import.meta.url),out+file);
+await fs.writeFile(out+'shell.html','<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">__SOCIAL_META__<link rel="icon" href="/favicon.svg?v=blue-1" type="image/svg+xml"><link rel="alternate icon" href="/favicon.ico?v=blue-1"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="stylesheet" href="/app.css"><script type="module" src="/app.js"></script></head><body><div id="root"></div></body></html>'.replace('/app.css','/app.css?v='+cssVersion));
+await fs.writeFile(out+'index.html','<!doctype html><html lang="fa" dir="rtl"><meta charset="utf-8"><body>خزانه سایفوند انرژی</body></html>');
+await fs.writeFile(out+'_routes.json',JSON.stringify({version:1,include:['/','/@*'],exclude:[]}));
+await fs.writeFile(out+'_headers','/ledger.json\n  Cache-Control: no-store\n/share-image.png\n  Cache-Control: no-store\n/player-images/*\n  Cache-Control: no-store\n/shell.html\n  X-Robots-Tag: noindex\n');
+await fs.mkdir(root+'.work',{recursive:true});
+await build({entryPoints:[root+'src/render-card.tsx'],outfile:root+'.work/render-card.mjs',bundle:true,platform:'node',format:'esm',packages:'external',jsx:'automatic'});
+execFileSync(process.execPath,[root+'.work/render-card.mjs',root+'migration/ledger.json',out+'share-image.png']);
+await fs.rm(out+'player-images',{recursive:true,force:true});
+await fs.mkdir(out+'player-images',{recursive:true});
+await build({entryPoints:[root+'src/render-players.tsx'],outfile:root+'.work/render-players.mjs',bundle:true,platform:'node',format:'esm',packages:'external',jsx:'automatic'});
+execFileSync(process.execPath,[root+'.work/render-players.mjs',root+'migration/ledger.json',out],{stdio:'inherit'});
+execFileSync('python3',['-c',`import zipfile,os\nroot=${JSON.stringify(out)}\nwith zipfile.ZipFile(${JSON.stringify(root+'siphoned.zip')},'w',zipfile.ZIP_DEFLATED) as z:\n for folder,_,files in os.walk(root):\n  for name in files: z.write(os.path.join(folder,name),os.path.relpath(os.path.join(folder,name),root))`]);
+console.log('Cloudflare package: '+root+'siphoned.zip');

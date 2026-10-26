@@ -1,0 +1,38 @@
+'use client';
+/* Shared with the standalone Cloudflare client, which has no Next router or image runtime. */
+/* eslint-disable @next/next/no-html-link-for-pages, @next/next/no-img-element */
+import {useMemo, useState} from 'react';
+import {ArrowRight, ArrowDownLeft, ArrowUpRight, Trophy, Shield, Share2, Download, Search, CheckCircle2, AlertTriangle} from 'lucide-react';
+import {minimum} from '../lib/ledger.mjs';
+import {playerSnapshot} from '../lib/player.mjs';
+import {withShareTimestamp} from '../lib/share-link.mjs';
+import {persianNumber as n, persianDigits as digits} from '../lib/persian-text';
+export type PlayerRow = {date:string; player:string; reason:string; amount:number};
+type Profile = NonNullable<ReturnType<typeof playerSnapshot>>;
+export function BalanceTimeline({profile:p}:{profile:Profile}) {
+ const points=[0,...p.history.slice().reverse().map(r=>r.balance)];
+ const min=Math.min(0,...points),max=Math.max(minimum,...points),range=max-min||1;
+ const y=(v:number)=>160-(v-min)/range*130;
+ const line=points.map((v,i)=>`${20+i/(points.length-1)*760},${y(v)}`).join(' ');
+ return <div className="balance-timeline"><svg viewBox="0 0 800 190" role="img" aria-label="روند بالانس از صفر تا آخرین تراکنش" preserveAspectRatio="none"><title>روند بالانس بر اساس همهٔ لاگ‌های ثبت‌شده</title><line x1="20" x2="780" y1={y(minimum)} y2={y(minimum)} stroke="#80b6a0" strokeDasharray="5 6"/><line x1="20" x2="780" y1={y(0)} y2={y(0)} stroke="#405367"/><polyline points={line} fill="none" stroke="#56d3ff" strokeWidth="3" strokeLinejoin="round"/><circle cx="780" cy={y(p.balance)} r="5" fill={p.balance<0?'#e47878':'#56d3ff'}/></svg><div className="timeline-labels"><span>شروع لاگ‌ها · <bdi>{digits(p.first.slice(0,10))}</bdi></span><span>خط‌چین: حداقل {n(minimum)}</span><span>آخرین وضعیت · <bdi>{digits(p.last.slice(0,10))}</bdi></span></div></div>;
+}
+export default function PlayerPage({rows,name,origin}:{rows:PlayerRow[];name:string;origin:string}) {
+ const p=useMemo(()=>playerSnapshot(rows,name),[rows,name]);
+ const [filter,setFilter]=useState('all'),[query,setQuery]=useState(''),[limit,setLimit]=useState(25),[notice,setNotice]=useState('');
+ if(!p)return <main className="player-layout"><div className="empty panel"><h1>بازیکن پیدا نشد</h1><p>هنوز تراکنشی برای این نام ثبت نشده است.</p><a className="primary" href="/">بازگشت به خزانه</a></div></main>;
+ const history=p.history.filter(r=>(filter==='all'||(filter==='deposit'?r.amount>0:r.amount<0))&&`${r.date} ${digits(r.date)} ${r.amount} ${n(r.amount)}`.includes(query.trim()));
+ const tone=p.balance<0?'bad':p.balance<minimum?'warn':'good';
+ async function share(){const url=withShareTimestamp(new URL(p!.path,origin).href,Math.floor(Date.now()/1000));try{await navigator.clipboard.writeText(url);setNotice('لینک حساب کپی شد؛ همراه تصویر وضعیت در دیسکورد یا توییتر به اشتراک بگذار.');}catch{setNotice(url);}}
+ function download(){
+  const csv='\uFEFFDate,Player,Reason,Amount,Balance\r\n'+p!.history.map(r=>[r.date,/^[=+@\-\t\r]/.test(r.player)?"'"+r.player:r.player,r.reason,r.amount,r.balance].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='player-transactions.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }
+ return <main className="player-layout"><header className="player-nav"><a href="/" className="player-back"><ArrowRight size={18}/> خزانهٔ گیلد</a><a className="brand" href="/"><img src="/siphoned-energy.svg" width="34" height="34" alt=""/> سایفوند انرژی</a></header>
+ <section className="player-hero panel"><div className="player-identity"><span className="player-monogram" aria-hidden="true">{p.name.slice(0,2).toUpperCase()}</span><div><div className="eyebrow">کارنامهٔ عضو گیلد</div><h1 dir="ltr">@{p.name}</h1><span className={'badge '+tone}><i/>{p.status}</span></div></div><div className="player-hero-actions"><button className="primary" onClick={share}><Share2 size={16}/> اشتراک حساب</button><span><Trophy size={16}/> رتبهٔ {n(p.rank)} از {n(p.members)} عضو</span></div></section>
+ <section className="stats player-stats" aria-label="خلاصه حساب">{[{label:'بالانس فعلی',value:p.balance,color:p.balance<0?'red':'energy',sub:'خالص واریز و برداشت'},{label:'مجموع واریز',value:p.deposits,color:'green',sub:'سهم ثبت‌شده در خزانه'},{label:'مجموع برداشت',value:p.withdrawals,color:'',sub:'سایفوند انرژی مصرف‌شده'},{label:'تراکنش ثبت‌شده',value:p.count,color:'',sub:'از '+digits(p.first.slice(0,10))}].map(s=><div className="stat" key={s.label}><div className="stat-top">{s.label}</div><strong className={s.color} dir="ltr">{n(s.value)}</strong><span>{s.sub}</span></div>)}</section>
+ <section className={'player-readiness panel '+tone}>{p.topUp>0?<AlertTriangle size={25}/>:<CheckCircle2 size={25}/>}<div><h2>{p.topUp>0?'قدم بعدی: شارژ حساب':'برای نبرد بعدی آماده‌ای'}</h2><p>{p.topUp>0?<>با واریز <strong>{n(p.topUp)} سایفوند انرژی</strong> به حداقل آمادگی {n(minimum)} می‌رسی.</>:<>بالانس تو <strong>{n(p.balance-minimum)} سایفوند انرژی</strong> بالاتر از حداقل آمادگی {n(minimum)} است.</>}</p></div><Shield size={36} className="readiness-shield"/></section>
+ <section className="panel player-chart"><div className="section-title"><div><div className="eyebrow">هر واریز و برداشت، یک قدم در مسیر</div><h2>مسیر بالانس</h2></div><span className="muted">{n(p.count)} تراکنش</span></div><BalanceTimeline profile={p}/></section>
+ <section className="panel player-transactions"><div className="section-title"><div><div className="eyebrow">شفاف، از اولین لاگ تا امروز</div><h2>تاریخچهٔ کامل حساب</h2></div><button className="share-button" onClick={download}><Download size={15}/> دریافت CSV</button></div><div className="filters"><div className="tabs" aria-label="نوع تراکنش">{[['all','همه'],['deposit','واریزها'],['withdrawal','برداشت‌ها']].map(([value,label])=><button key={value} aria-pressed={filter===value} className={filter===value?'selected':''} onClick={()=>{setFilter(value);setLimit(25);}}>{label}</button>)}</div><label className="search"><Search size={16}/><input aria-label="جست‌وجوی تاریخ یا مقدار" placeholder="تاریخ یا مقدار…" value={query} onChange={e=>{setQuery(e.target.value);setLimit(25);}}/></label></div>
+ <div className="table-wrap"><table><thead><tr><th>زمان ثبت در بازی</th><th>نوع تراکنش</th><th>مقدار</th><th>بالانس پس از تراکنش</th></tr></thead><tbody>{history.slice(0,limit).map((r,i)=><tr key={i}><td className="date" dir="ltr">{digits(r.date)}</td><td><span className={'transaction-kind '+(r.amount>0?'green':'red')}>{r.amount>0?<ArrowDownLeft size={15}/>:<ArrowUpRight size={15}/>} {r.amount>0?'واریز':'برداشت'}</span></td><td dir="ltr" className={r.amount>0?'green':'red'}>{r.amount>0?'+':''}{n(r.amount)}</td><td dir="ltr" className={r.balance<0?'red':''}>{n(r.balance)}</td></tr>)}</tbody></table>{!history.length&&<p className="empty">تراکنشی با این فیلتر پیدا نشد.</p>}</div><div className="table-footer"><span>{n(Math.min(limit,history.length))} از {n(history.length)} تراکنش · جدیدترین در بالا</span>{history.length>limit&&<button className="energy" onClick={()=>setLimit(limit+50)}>نمایش تراکنش‌های بیشتر</button>}</div></section>
+ <footer><span><span className="live-dot"/> آخرین تراکنش این بازیکن: <bdi>{digits(p.last)}</bdi></span><p>بالانس از صفر و بر اساس لاگ‌های ثبت‌شده محاسبه شده است؛ موجودی پیش از اولین لاگ لحاظ نشده است. زمان‌ها همان زمان ثبت‌شده در بازی هستند.</p><a href="/">مشاهدهٔ همهٔ اعضا ←</a></footer>{notice&&<div className="share-feedback" role="status" dir="auto" onClick={()=>setNotice('')}>{notice}</div>}</main>;
+}

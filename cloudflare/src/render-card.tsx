@@ -1,0 +1,10 @@
+import { ImageResponse } from '@vercel/og';
+import {createElement} from 'react';
+import fs from 'node:fs/promises';
+import {ShareCard,cardWidth,cardHeight} from '../../lib/share-card';
+import {socialFonts} from '../../lib/social-fonts';
+import {ledgerSnapshot} from '../../lib/share';
+const rows=JSON.parse(await fs.readFile(process.argv[2],'utf8')).rows;
+const data=await ledgerSnapshot(rows);
+const response=new ImageResponse(createElement(ShareCard,{data}),{width:cardWidth,height:cardHeight,fonts:[...socialFonts]});
+await fs.writeFile(process.argv[3],Buffer.from(await response.arrayBuffer()));
